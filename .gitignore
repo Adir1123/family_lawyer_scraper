@@ -1,0 +1,34 @@
+# dependencies
+node_modules/
+
+# environment variables
+.env
+.env*.local
+
+# Next.js
+.next/
+out/
+
+# Trigger.dev
+.trigger/
+
+# build output
+dist/
+build/
+
+# misc
+.DS_Store
+*.pem
+*.tsbuildinfo
+*.log
+
+# debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel
+.vercel
+
+# backup (temporary)
+_backup/

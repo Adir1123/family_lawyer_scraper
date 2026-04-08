@@ -41,11 +41,11 @@ export function LeadsFilters({
   }
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex flex-wrap items-center gap-2 md:gap-3">
       <Select
         value={currentStatus || ""}
         onChange={(e) => updateParams("status", e.target.value)}
-        className="w-[160px]"
+        className="w-full md:w-[160px]"
       >
         {statusOptions.map((opt) => (
           <option key={opt.value} value={opt.value}>

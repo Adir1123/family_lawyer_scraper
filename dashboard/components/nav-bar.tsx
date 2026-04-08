@@ -26,12 +26,12 @@ export function NavBar() {
   return (
     <nav className="border-b bg-card/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4 md:gap-8">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="h-7 w-7 rounded-lg bg-primary/10 flex items-center justify-center">
               <div className="h-3.5 w-3.5 rounded-sm bg-primary" />
             </div>
-            <span className="font-semibold text-sm">Family Lawyer</span>
+            <span className="font-semibold text-sm hidden sm:inline">Family Lawyer</span>
           </Link>
           <div className="flex items-center gap-1">
             {links.map((link) => (

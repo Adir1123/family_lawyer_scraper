@@ -316,7 +316,7 @@ export function SettingsForm({ config, lastRun }: SettingsFormProps) {
               max={200}
               value={maxPosts}
               onChange={(e) => setMaxPosts(Number(e.target.value))}
-              className="max-w-[200px]"
+              className="w-full md:max-w-[200px]"
             />
             <p className="text-xs text-muted-foreground">
               Maximum posts to scrape from each group per run (1–200)
@@ -332,7 +332,7 @@ export function SettingsForm({ config, lastRun }: SettingsFormProps) {
               max={168}
               value={lookbackHours}
               onChange={(e) => setLookbackHours(Number(e.target.value))}
-              className="max-w-[200px]"
+              className="w-full md:max-w-[200px]"
             />
             <p className="text-xs text-muted-foreground">
               Only scrape posts from the last N hours (1–168, i.e. up to 1 week)
@@ -345,7 +345,7 @@ export function SettingsForm({ config, lastRun }: SettingsFormProps) {
               id="max_post_age"
               value={String(maxPostAge)}
               onChange={(e) => setMaxPostAge(Number(e.target.value))}
-              className="max-w-[200px]"
+              className="w-full md:max-w-[200px]"
             >
               <option value="24">24 hours</option>
               <option value="48">48 hours</option>
@@ -385,13 +385,13 @@ export function SettingsForm({ config, lastRun }: SettingsFormProps) {
 
           <div className="space-y-2">
             <Label>Active Hours</Label>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 md:gap-3">
               <div className="flex items-center gap-2">
                 <span className="text-sm text-muted-foreground">From</span>
                 <Select
                   value={String(scheduleFrom)}
                   onChange={(e) => setScheduleFrom(Number(e.target.value))}
-                  className="w-[110px]"
+                  className="w-[100px] md:w-[110px]"
                 >
                   {HOUR_OPTIONS.map((h) => (
                     <option key={h.value} value={h.value}>{h.label}</option>
@@ -403,7 +403,7 @@ export function SettingsForm({ config, lastRun }: SettingsFormProps) {
                 <Select
                   value={String(scheduleTo)}
                   onChange={(e) => setScheduleTo(Number(e.target.value))}
-                  className="w-[110px]"
+                  className="w-[100px] md:w-[110px]"
                 >
                   {HOUR_OPTIONS.map((h) => (
                     <option key={h.value} value={h.value}>{h.label}</option>
@@ -434,7 +434,7 @@ export function SettingsForm({ config, lastRun }: SettingsFormProps) {
               step={0.05}
               value={confidenceHigh}
               onChange={(e) => setConfidenceHigh(Number(e.target.value))}
-              className="max-w-[200px]"
+              className="w-full md:max-w-[200px]"
             />
             <p className="text-xs text-muted-foreground">
               Posts above this score are auto-classified as &quot;high&quot; leads (0.50–1.00)
@@ -451,7 +451,7 @@ export function SettingsForm({ config, lastRun }: SettingsFormProps) {
               step={0.05}
               value={confidenceLow}
               onChange={(e) => setConfidenceLow(Number(e.target.value))}
-              className="max-w-[200px]"
+              className="w-full md:max-w-[200px]"
             />
             <p className="text-xs text-muted-foreground">
               Posts between this and high threshold are &quot;medium&quot; leads. Below this = trash (0.10–0.90)
@@ -475,7 +475,7 @@ export function SettingsForm({ config, lastRun }: SettingsFormProps) {
               max={365}
               value={archiveDays}
               onChange={(e) => setArchiveDays(Number(e.target.value))}
-              className="max-w-[200px]"
+              className="w-full md:max-w-[200px]"
             />
             <p className="text-xs text-muted-foreground">
               Leads marked as &quot;handled&quot; will be auto-archived after this many days (7–365)
@@ -491,7 +491,7 @@ export function SettingsForm({ config, lastRun }: SettingsFormProps) {
               max={90}
               value={trashDays}
               onChange={(e) => setTrashDays(Number(e.target.value))}
-              className="max-w-[200px]"
+              className="w-full md:max-w-[200px]"
             />
             <p className="text-xs text-muted-foreground">
               Rejected posts (trash) will be permanently deleted after this many days (1–90)

@@ -19,7 +19,7 @@ export function LeadDetailCard({ lead }: { lead: Lead }) {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <CardTitle className="text-lg">{lead.author_name || "Unknown Author"}</CardTitle>
             <p className="text-sm text-muted-foreground mt-1">{timeAgo(lead.posted_at)}</p>

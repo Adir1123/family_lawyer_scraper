@@ -54,7 +54,7 @@ export default async function LeadsPage({
       <NavBar />
       <main className="max-w-6xl mx-auto px-4 py-8 animate-slide-up">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-semibold">Leads</h1>
+          <h1 className="text-xl md:text-2xl font-semibold">Leads</h1>
           <span className="text-sm text-muted-foreground">
             {count || 0} total
           </span>

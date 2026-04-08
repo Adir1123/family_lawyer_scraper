@@ -10,8 +10,8 @@
 export const nicheConfig = {
   name: 'Family Lawyer',
   slug: 'family-lawyer',
-  keywords_en: ['divorce', 'custody', 'alimony', 'prenup', 'child support', 'family court', 'separation agreement', 'mediation'],
-  keywords_he: ['גירושין', 'משמורת', 'מזונות', 'הסכם ממון', 'בית משפט לענייני משפחה', 'הסכם גירושין', 'גישור', 'חלוקת רכוש', 'משמורת משותפת'],
+  keywords_en: ['divorce', 'custody', 'alimony', 'prenup', 'child support', 'family court', 'separation agreement', 'mediation', 'inheritance', 'common-law', 'estate', 'will'],
+  keywords_he: ['גירושין', 'משמורת', 'מזונות', 'הסכם ממון', 'בית משפט לענייני משפחה', 'הסכם גירושין', 'גישור', 'חלוקת רכוש', 'משמורת משותפת', 'ירושה', 'יורש', 'יורשים', 'ידועים בציבור', 'צוואה', 'עיזבון'],
   relevant_signals: [
     'Asking for lawyer recommendations for divorce/custody',
     'Questions about the divorce process or timeline',
@@ -20,6 +20,9 @@ export const nicheConfig = {
     'Prenup questions before marriage',
     'Someone going through separation seeking legal advice',
     'Posts mentioning בית הדין הרבני (rabbinical court)',
+    'Inheritance disputes or questions about rights after a partner/spouse passes away',
+    'Common-law partner (ידועים בציבור) rights questions',
+    'Questions about wills, estates, or succession in family context',
   ],
   irrelevant_signals: [
     'General legal questions (traffic tickets, criminal, corporate)',
@@ -61,6 +64,11 @@ export const nicheConfig = {
       relevant: false,
       reasoning: 'Looking for a private investigator, not a lawyer or legal help — irrelevant to family law services',
     },
+    {
+      text: 'חייתי עם בת זוג 15 שנה בלי להתחתן. היא נפטרה פתאום – האם אני נחשב יורש חוקי שלה כמו בעל?',
+      relevant: true,
+      reasoning: 'Common-law partner asking about inheritance rights after partner\'s death — classic family law case in Israel (ידועים בציבור)',
+    },
   ],
-  ai_prompt_hints: 'Focus on posts where someone is personally seeking legal help for family matters. A strong lead explicitly asks for a recommendation, describes their situation, or asks about costs/process. Ignore news sharing, general discussion, and legal questions outside family law.',
+  ai_prompt_hints: 'Focus on posts where someone is personally seeking legal help for family matters including inheritance, common-law partner rights, and succession disputes. A strong lead explicitly asks for a recommendation, describes their situation, or asks about costs/process. Ignore news sharing, general discussion, and legal questions outside family law.',
 };

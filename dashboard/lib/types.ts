@@ -44,6 +44,7 @@ export interface ScraperConfig {
   schedule_to: number;
   max_posts: number;
   lookback_hours: number;
+  max_post_age: number;
   active: boolean;
   trigger_schedule_id: string | null;
   confidence_high: number;

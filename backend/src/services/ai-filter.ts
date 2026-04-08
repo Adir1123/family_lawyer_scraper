@@ -73,9 +73,9 @@ async function filterSinglePost(
   } catch (error) {
     return {
       postId: post.postId,
-      confidence: 0.5,
+      confidence: 0,
       reasoning: `AI filter error: ${error instanceof Error ? error.message : 'unknown'}`,
-      category: 'medium',
+      category: 'trash',
       tokensUsed: 0,
     };
   }

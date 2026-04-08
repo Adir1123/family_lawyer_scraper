@@ -15,5 +15,5 @@ export default defineConfig({
     },
   },
   dirs: ['./src/trigger'],
-  additionalPackages: ['proxy-agent'],
+  additionalPackages: ['apify-client@2.22.3'],
 });

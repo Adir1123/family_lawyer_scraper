@@ -19,7 +19,7 @@
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.2.0",
     "lucide-react": "^0.344.0",
-    "@trigger.dev/sdk": "^3.0.0",
+    "@trigger.dev/sdk": "4.4.3",
     "zod": "^3.22.0"
   },
   "devDependencies": {

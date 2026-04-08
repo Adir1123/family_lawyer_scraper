@@ -6,6 +6,7 @@ export interface ScraperConfig {
   cron_schedule: string;
   max_posts: number;
   lookback_hours: number;
+  max_post_age: number;
   active: boolean;
   created_at: string;
   updated_at: string;

@@ -24,6 +24,7 @@ export function SettingsForm({ config, lastRun }: SettingsFormProps) {
   const [newGroupUrl, setNewGroupUrl] = useState("");
   const [maxPosts, setMaxPosts] = useState(config.max_posts ?? 50);
   const [lookbackHours, setLookbackHours] = useState(config.lookback_hours ?? 24);
+  const [maxPostAge, setMaxPostAge] = useState(config.max_post_age ?? 48);
   const [scheduleFrequency, setScheduleFrequency] = useState(config.schedule_frequency ?? 4);
   const [scheduleFrom, setScheduleFrom] = useState(config.schedule_from ?? 0);
   const [scheduleTo, setScheduleTo] = useState(config.schedule_to ?? 23);
@@ -109,6 +110,7 @@ export function SettingsForm({ config, lastRun }: SettingsFormProps) {
         group_urls: groupUrls,
         max_posts: maxPosts,
         lookback_hours: lookbackHours,
+        max_post_age: maxPostAge,
         schedule_frequency: scheduleFrequency,
         schedule_from: scheduleFrom,
         schedule_to: scheduleTo,
@@ -334,6 +336,23 @@ export function SettingsForm({ config, lastRun }: SettingsFormProps) {
             />
             <p className="text-xs text-muted-foreground">
               Only scrape posts from the last N hours (1–168, i.e. up to 1 week)
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="max_post_age">Max Post Age</Label>
+            <Select
+              id="max_post_age"
+              value={String(maxPostAge)}
+              onChange={(e) => setMaxPostAge(Number(e.target.value))}
+              className="max-w-[200px]"
+            >
+              <option value="24">24 hours</option>
+              <option value="48">48 hours</option>
+              <option value="72">72 hours</option>
+            </Select>
+            <p className="text-xs text-muted-foreground">
+              Reject posts created more than this many hours ago. Old posts that resurface due to new comments will be filtered out.
             </p>
           </div>
         </CardContent>

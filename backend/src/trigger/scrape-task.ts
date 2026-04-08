@@ -57,15 +57,32 @@ export const scrapeTask = schedules.task({
 
       if (postsNew === 0) return;
 
-      // 4. Mark all as processed
+      // 3b. Filter out posts older than max_post_age
+      const ageCutoff = new Date(Date.now() - (cfg.max_post_age ?? 48) * 60 * 60 * 1000);
+      const freshPosts = newPosts.filter((p) => new Date(p.timestamp) >= ageCutoff);
+      const staleCount = newPosts.length - freshPosts.length;
+      if (staleCount > 0) {
+        logger.info(`Filtered ${staleCount} posts older than ${cfg.max_post_age ?? 48}h`);
+      }
+
+      if (freshPosts.length === 0) {
+        logger.info('No fresh posts after age filter');
+        // Still mark as processed so we don't re-check them
+        await insertProcessed(
+          newPosts.map((p) => ({ postId: p.postId, groupUrl: p.groupUrl }))
+        );
+        return;
+      }
+
+      // 4. Mark all as processed (including stale ones to avoid re-checking)
       await insertProcessed(
         newPosts.map((p) => ({ postId: p.postId, groupUrl: p.groupUrl }))
       );
 
-      // 5. AI filter with Claude
+      // 5. AI filter with Claude (only fresh posts)
       const systemPrompt = buildSystemPrompt(nicheConfig);
       const results = await filterPosts(
-        newPosts,
+        freshPosts,
         systemPrompt,
         cfg.confidence_high,
         cfg.confidence_low,
@@ -80,10 +97,11 @@ export const scrapeTask = schedules.task({
 
       // 7. Store leads
       if (leads.length > 0) {
-        const postMap = new Map(newPosts.map((p) => [p.postId, p]));
+        const postMap = new Map(freshPosts.map((p) => [p.postId, p]));
         await insertLeads(
           leads.map((r) => {
-            const post = postMap.get(r.postId)!;
+            const post = postMap.get(r.postId);
+            if (!post) throw new Error(`Post not found for lead: ${r.postId}`);
             return {
               post_id: r.postId,
               author_name: post.authorName,

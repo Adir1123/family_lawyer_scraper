@@ -17,6 +17,9 @@ const settingsSchema = z.object({
   ),
   max_posts: z.coerce.number().int().min(1).max(200),
   lookback_hours: z.coerce.number().int().min(1).max(168),
+  max_post_age: z.coerce.number().int().refine((v) => [24, 48, 72].includes(v), {
+    message: "Max post age must be 24, 48, or 72 hours",
+  }),
   schedule_frequency: z.coerce.number().int().min(1).max(24),
   schedule_from: z.coerce.number().int().min(0).max(23),
   schedule_to: z.coerce.number().int().min(0).max(23),
@@ -42,6 +45,7 @@ export async function updateScraperConfig(data: {
   group_urls: string[];
   max_posts: number;
   lookback_hours: number;
+  max_post_age: number;
   schedule_frequency: number;
   schedule_from: number;
   schedule_to: number;
@@ -59,7 +63,7 @@ export async function updateScraperConfig(data: {
   }
 
   const {
-    group_urls, max_posts, lookback_hours, schedule_frequency, schedule_from, schedule_to, active,
+    group_urls, max_posts, lookback_hours, max_post_age, schedule_frequency, schedule_from, schedule_to, active,
     confidence_high, confidence_low, archive_days, trash_days,
   } = parsed.data;
 
@@ -83,6 +87,7 @@ export async function updateScraperConfig(data: {
       group_urls,
       max_posts,
       lookback_hours,
+      max_post_age,
       cron_schedule,
       schedule_frequency,
       schedule_from,

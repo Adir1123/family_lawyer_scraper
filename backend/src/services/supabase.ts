@@ -5,20 +5,22 @@ import type { LeadStatus } from '../types/database.js';
 const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_SERVICE_KEY);
 
 export async function checkProcessed(postIds: string[]): Promise<Set<string>> {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('processed_posts')
     .select('post_id')
     .in('post_id', postIds);
+  if (error) throw new Error(`Failed to check processed posts: ${error.message}`);
   return new Set((data ?? []).map((r) => r.post_id));
 }
 
 export async function insertProcessed(
   posts: { postId: string; groupUrl: string }[]
 ) {
-  await supabase.from('processed_posts').upsert(
+  const { error } = await supabase.from('processed_posts').upsert(
     posts.map((p) => ({ post_id: p.postId, group_url: p.groupUrl })),
     { onConflict: 'post_id' }
   );
+  if (error) throw new Error(`Failed to insert processed posts: ${error.message}`);
 }
 
 export async function insertLeads(
@@ -35,13 +37,15 @@ export async function insertLeads(
     posted_at: string;
   }[]
 ) {
-  await supabase.from('leads').insert(leads);
+  const { error } = await supabase.from('leads').insert(leads);
+  if (error) throw new Error(`Failed to insert leads: ${error.message}`);
 }
 
 export async function insertTrash(
   items: { post_id: string; confidence: number; reasoning: string }[]
 ) {
-  await supabase.from('trash').insert(items);
+  const { error } = await supabase.from('trash').insert(items);
+  if (error) throw new Error(`Failed to insert trash: ${error.message}`);
 }
 
 export async function insertRunMetrics(metrics: {
@@ -55,23 +59,26 @@ export async function insertRunMetrics(metrics: {
   tokens_used: number;
   errors: string[];
 }) {
-  await supabase.from('run_metrics').insert(metrics);
+  const { error } = await supabase.from('run_metrics').insert(metrics);
+  if (error) throw new Error(`Failed to insert run metrics: ${error.message}`);
 }
 
 export async function updateLeadStatus(leadId: string, status: LeadStatus) {
-  await supabase
+  const { error } = await supabase
     .from('leads')
     .update({ status, updated_at: new Date().toISOString() })
     .eq('id', leadId);
+  if (error) throw new Error(`Failed to update lead status: ${error.message}`);
 }
 
 export async function getActiveConfig() {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('scraper_config')
     .select('*')
     .eq('active', true)
     .limit(1)
     .single();
+  if (error) throw new Error(`Failed to load scraper config: ${error.message}`);
   return data;
 }
 
@@ -79,16 +86,18 @@ export async function archiveOldLeads(olderThanDays: number = 30) {
   const cutoff = new Date(
     Date.now() - olderThanDays * 24 * 60 * 60 * 1000
   ).toISOString();
-  await supabase
+  const { error } = await supabase
     .from('leads')
     .update({ status: 'archived' as LeadStatus })
     .eq('status', 'handled')
     .lt('updated_at', cutoff);
+  if (error) throw new Error(`Failed to archive old leads: ${error.message}`);
 }
 
 export async function cleanOldTrash(olderThanDays: number = 7) {
   const cutoff = new Date(
     Date.now() - olderThanDays * 24 * 60 * 60 * 1000
   ).toISOString();
-  await supabase.from('trash').delete().lt('created_at', cutoff);
+  const { error } = await supabase.from('trash').delete().lt('created_at', cutoff);
+  if (error) throw new Error(`Failed to clean old trash: ${error.message}`);
 }

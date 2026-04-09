@@ -91,10 +91,10 @@ stateDiagram-v2
 ## Demo
 
 ### Leads Dashboard
-![Leads Dashboard](docs/gifs/leads-tab.gif)
+<img src="docs/gifs/leads-tab.gif" alt="Leads Dashboard" width="600">
 
 ### Settings & Configuration
-![Settings](docs/gifs/settings-tab.gif)
+<img src="docs/gifs/settings-tab.gif" alt="Settings" width="600">
 
 ## Getting Started
 

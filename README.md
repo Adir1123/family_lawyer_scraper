@@ -99,7 +99,7 @@ Facebook Groups → Apify Scraper → Claude AI Scoring → Supabase DB → Next
 
 ```bash
 # Clone and install
-git clone https://github.com/Adir1123/family-lawyer-scraper.git
+git clone https://github.com/Adir1123/family_lawyer_scraper.git
 cd family-lawyer-scraper
 npm install
 

@@ -50,14 +50,14 @@ flowchart LR
 
 ```mermaid
 stateDiagram-v2
-    [*] --> New: AI qualifies post
-    New --> Viewed: Operator opens lead
-    Viewed --> Contacted: Operator reaches out
-    Contacted --> Handled: Deal closed / resolved
-    Handled --> Archived: Auto-archived after N days
+    direction LR
+    [*] --> New: AI qualifies
+    New --> Viewed
+    Viewed --> Contacted
+    Contacted --> Handled
+    Handled --> Archived
     Archived --> [*]
-
-    New --> Archived: Manually dismissed
+    New --> Archived: Dismissed
 ```
 
 ### Real-Time Dashboard

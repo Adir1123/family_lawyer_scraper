@@ -88,111 +88,13 @@ stateDiagram-v2
 | **Auth** | Supabase Auth — session-based, SSR-compatible |
 | **Deployment** | Vercel (dashboard) + Trigger.dev Cloud (backend) |
 
-## Architecture
+## Demo
 
-```mermaid
-graph TB
-    subgraph Backend ["⚙️ Backend (Trigger.dev Cloud)"]
-        CRON["⏰ Cron Scheduler"]
-        SCRAPE["🕷️ Scrape Task"]
-        CLEANUP["🧹 Cleanup Task"]
-    end
+### Leads Dashboard
+![Leads Dashboard](docs/gifs/leads-tab.gif)
 
-    subgraph External ["🌐 External Services"]
-        APIFY["Apify Actor"]
-        CLAUDE["Claude AI (Sonnet)"]
-    end
-
-    subgraph Database ["🗄️ Supabase (PostgreSQL)"]
-        CONFIG[("scraper_config")]
-        POSTS[("processed_posts")]
-        LEADS[("leads")]
-        TRASH[("trash")]
-        METRICS[("run_metrics")]
-    end
-
-    subgraph Frontend ["🖥️ Dashboard (Vercel)"]
-        NEXT["Next.js 14"]
-        AUTH["Supabase Auth"]
-    end
-
-    CRON --> SCRAPE
-    CRON --> CLEANUP
-    SCRAPE --> APIFY
-    APIFY --> SCRAPE
-    SCRAPE --> POSTS
-    SCRAPE --> CLAUDE
-    CLAUDE --> LEADS
-    CLAUDE --> TRASH
-    SCRAPE --> METRICS
-    CLEANUP --> LEADS
-    CLEANUP --> TRASH
-    NEXT --> LEADS
-    NEXT --> CONFIG
-    NEXT --> METRICS
-    AUTH --> NEXT
-
-    style Backend fill:#1e1b4b,stroke:#4f46e5,color:#fff
-    style External fill:#1c1917,stroke:#a16207,color:#fff
-    style Database fill:#052e16,stroke:#16a34a,color:#fff
-    style Frontend fill:#0c1a2e,stroke:#2563eb,color:#fff
-```
-
-**Scheduled Tasks:**
-- `family-lawyer-scrape` — main pipeline (configurable interval)
-- `family-lawyer-cleanup` — archive old leads, purge trash (hourly)
-
-## Database Schema
-
-```mermaid
-erDiagram
-    scraper_config {
-        jsonb group_urls "Facebook group URLs"
-        float confidence_high "High threshold (0.85)"
-        float confidence_low "Low threshold (0.60)"
-        int max_posts "Posts per scrape"
-        int lookback_hours "Hours to look back"
-        boolean active "Scraper on/off"
-    }
-
-    processed_posts {
-        text post_id PK "Facebook post ID"
-        text group_url "Source group"
-        timestamp first_seen "When first scraped"
-    }
-
-    leads {
-        uuid id PK
-        text post_id FK "Links to processed_posts"
-        text status "new/viewed/contacted/handled/archived"
-        float confidence "AI score 0-1"
-        text category "high/medium"
-        text reasoning "AI explanation"
-        text author "Post author"
-        text text "Post content"
-        text url "Facebook URL"
-    }
-
-    trash {
-        uuid id PK
-        text post_id "Rejected post ID"
-        float confidence "AI score"
-        text reasoning "Why rejected"
-    }
-
-    run_metrics {
-        uuid id PK
-        int posts_scraped "Total posts found"
-        int posts_new "New unique posts"
-        int leads_found "Qualified leads"
-        int trash_count "Rejected posts"
-        int tokens_used "AI tokens consumed"
-        jsonb errors "Error log"
-    }
-
-    processed_posts ||--o| leads : "qualifies as"
-    processed_posts ||--o| trash : "rejected to"
-```
+### Settings & Configuration
+![Settings](docs/gifs/settings-tab.gif)
 
 ## Getting Started
 
@@ -254,19 +156,6 @@ family-lawyer-scraper/
 └── supabase/
     └── migrations/          # Database schema
 ```
-
-<!-- 
-## Demo
-
-> Add screenshots or a GIF walkthrough here:
-> 1. Take screenshots of the dashboard (leads, stats, settings pages)
-> 2. Save them to docs/screenshots/
-> 3. Uncomment and update the paths below:
-
-> ![Leads Dashboard](docs/screenshots/leads.png)
-> ![Analytics](docs/screenshots/stats.png)
-> ![Settings](docs/screenshots/settings.png)
--->
 
 ## License
 
